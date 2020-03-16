@@ -1,0 +1,10 @@
+{
+  "name": "gs-grid",
+  "version": "0.0.1",
+  "description": "A new grid for web",
+  "main": "index.ts",
+  "repository": "https://github.com/ganesh1004/gs-grid.git",
+  "author": "velankiganesh@gmail.com",
+  "license": "MIT",
+  "private": true
+}

@@ -1,2 +1,2 @@
 # gs-grid
-Evolving grid for web.
+A new grid for the web.
