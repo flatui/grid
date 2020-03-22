@@ -1,7 +1,7 @@
 const path = require('path');
 
 module.exports = {
-    entry: './src/index.ts',
+    entry: './demo/index.js',
     devtool: 'inline-source-map',
     mode: 'development',
     devServer: {
@@ -21,9 +21,9 @@ module.exports = {
                 exclude: /node_modules/,
             },
             {
-                test: /\.css$/i,
-                use: ['style-loader', 'css-loader'],
-            }
+                test: /\.css$/,
+                use: ['style-loader', 'css-loader']
+              }
         ],
     },
     resolve: {
