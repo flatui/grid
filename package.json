@@ -9,13 +9,16 @@
   "private": true,
   "scripts": {
     "build": "webpack",
-    "watch": "webpack --watch",
-    "start": "webpack-dev-server --open"
+    "build:watch": "webpack --watch",
+    "preserve": "yarn build",
+    "serve": "webpack-dev-server --open"
   },
   "dependencies": {
-    "lodash": "^4.17.15"
+    "bootstrap": "~4.4.1"
   },
   "devDependencies": {
+    "css-loader": "^3.4.2",
+    "style-loader": "^1.1.3",
     "ts-loader": "^6.2.1",
     "typescript": "^3.8.3",
     "webpack": "^4.42.0",
