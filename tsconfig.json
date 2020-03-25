@@ -9,5 +9,6 @@
       "module": "CommonJS",
       "target": "ES6",
       "allowJs": true
-    }
+    },
+    "compileOnSave": true,
   }

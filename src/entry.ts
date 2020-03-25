@@ -1,12 +1,12 @@
 export class GsGrid extends HTMLElement {
+    col: any;
     constructor() {
         super();
     }
 
     connectedCallback() {
-      this.innerHTML = `<h1>Hello world</h1>`;
+      this.innerHTML = `Hello world 44d`;
     }
 }
 
-debugger;
 customElements.define('gs-grid', GsGrid);
