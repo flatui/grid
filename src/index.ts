@@ -1,2 +1,2 @@
 // MODULE FILE FOR GS-GRID
-export { GsGrid } from './entry';
+export { GsGrid } from './gs-grid';

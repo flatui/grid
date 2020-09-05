@@ -1,11 +1,12 @@
+import { IGridColumn } from "./interface";
+
 export class GsGrid extends HTMLElement {
-    col: any;
+    col: IGridColumn[];
     constructor() {
         super();
     }
 
     connectedCallback() {
-      this.innerHTML = `Hello world 44d`;
     }
 }
 
