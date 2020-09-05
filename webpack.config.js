@@ -5,7 +5,6 @@ module.exports = {
     devtool: 'inline-source-map',
     mode: 'development',
     devServer: {
-        contentBase: './demo',
         liveReload: true,
         watchContentBase: true,
         hot: false,
