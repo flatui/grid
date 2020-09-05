@@ -1,3 +1,9 @@
 * {
     font-family: 'Open Sans', sans-serif;
 }
+
+.git-fork-ribbon {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
