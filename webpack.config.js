@@ -28,7 +28,7 @@ module.exports = {
         extensions: ['.ts', '.js', '.css'],
     },
     output: {
-        filename: 'demo/bundle.js',
-        path: path.resolve(__dirname, 'dist')
+        filename: 'index.bundle.js',
+        path: path.resolve(__dirname, 'demo')
     }
 };
