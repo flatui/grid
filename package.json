@@ -9,7 +9,7 @@
     "private": true,
     "scripts": {
         "tsc:watch": "tsc --watch",
-        "docs": "yarn typedoc --out ./demo/docs --readme none --mode file",
+        "docs": "yarn typedoc --out ./demo/docs --readme none --mode file --version",
         "build": "tsc & webpack",
         "tsc": "tsc",
         "webpack": "webpack",
