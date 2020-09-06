@@ -16,7 +16,7 @@ on:
 
 jobs:
   test:
-    runs-on: ${{ matrix.os }} # runs a test on Ubuntu
+    runs-on: ${{ matrix.os }}
 
     strategy:
       matrix:
@@ -38,9 +38,6 @@ jobs:
           npm run-script tsc
           npm run-script webpack
 
-      - name: Generate docs
-        run: npm run-script docs
-        
       - name: Deploy GitHub Pages
         uses: crazy-max/ghaction-github-pages@v2.1.2
         with:
