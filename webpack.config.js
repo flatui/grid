@@ -13,8 +13,7 @@ module.exports = {
         }
     },
     module: {
-        rules: [
-            {
+        rules: [{
                 test: /\.ts$/,
                 use: 'ts-loader',
                 exclude: /node_modules/,
@@ -22,14 +21,14 @@ module.exports = {
             {
                 test: /\.css$/,
                 use: ['style-loader', 'css-loader']
-              }
+            }
         ],
     },
     resolve: {
         extensions: ['.ts', '.js', '.css'],
     },
     output: {
-        filename: 'bundle.js',
+        filename: 'demo/bundle.js',
         path: path.resolve(__dirname, 'dist')
     }
 };
