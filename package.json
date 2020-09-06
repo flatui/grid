@@ -11,6 +11,8 @@
         "tsc:watch": "tsc --watch",
         "docs:generate": "yarn typedoc",
         "build": "tsc & webpack",
+        "tsc": "tsc",
+        "webpack": "webpack",
         "build:watch": "yarn build",
         "prestart": "yarn build && yarn docs:generate",
         "start": "webpack-dev-server"

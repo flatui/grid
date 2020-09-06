@@ -35,8 +35,11 @@ jobs:
       - name: Npm Install
         run: npm install
       
-      - name: Npm Build
-        run: npm run-script build
+      - name: Npm tsc
+        run: npm run-script tsc
       
+      - name: Npm webpack
+        run: npm run-script webpack
+
       - name: Npm Docs
         run: npm run-script docs:generate
