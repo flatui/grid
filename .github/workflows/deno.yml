@@ -36,7 +36,7 @@ jobs:
         run: npm install
       
       - name: Npm Build
-        run: npm build
+        run: npm run-script build
       
       - name: Npm Docs
-        run: npm docs:generate
+        run: npm run-script docs:generate
