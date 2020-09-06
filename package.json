@@ -9,12 +9,12 @@
     "private": true,
     "scripts": {
         "tsc:watch": "tsc --watch",
-        "docs:generate": "yarn typedoc --out ./demo/docs",
+        "docs": "yarn typedoc --out ./demo/docs",
         "build": "tsc & webpack",
         "tsc": "tsc",
         "webpack": "webpack",
         "build:watch": "yarn build",
-        "prestart": "yarn build && yarn docs:generate",
+        "prestart": "yarn build && yarn docs",
         "start": "webpack-dev-server"
     },
     "husky": {
