@@ -39,7 +39,9 @@ jobs:
           npm run-script webpack
 
       - name: Generate docs
-        run: npm run-script docs
+        run: |
+          npm run-script pre-docs
+          npm run-script docs
         
       - name: Deploy GitHub Pages
         uses: crazy-max/ghaction-github-pages@v2.1.2

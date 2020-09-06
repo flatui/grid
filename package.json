@@ -9,13 +9,15 @@
     "private": true,
     "scripts": {
         "tsc:watch": "tsc --watch",
+        "pre-docs": "yarn cp-bundlejs",
         "docs": "yarn typedoc --out ./demo/docs --readme none --mode file",
         "build": "tsc & webpack",
         "tsc": "tsc",
         "webpack": "webpack",
         "build:watch": "yarn build",
         "prestart": "yarn build && yarn docs",
-        "start": "webpack-dev-server"
+        "start": "webpack-dev-server",
+        "cp-bundlejs": "cp dist/bundle.js demo/bundle.js"
     },
     "husky": {
         "hooks": {}
