@@ -43,3 +43,11 @@ jobs:
 
       - name: Npm Docs
         run: npm run-script docs:generate
+        
+      - name: Deploy to GitHub Pages
+        uses: ganesh-vellanki/gs-grid
+        with:
+          target_branch: master
+          build_dir: demo
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
