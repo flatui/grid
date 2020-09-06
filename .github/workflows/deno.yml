@@ -35,13 +35,13 @@ jobs:
       - name: Npm Install
         run: npm install
       
-      - name: Npm tsc
-        run: npm run-script tsc
-      
-      - name: Npm webpack
-        run: npm run-script webpack
+      - name: Install & Build
+        run: |
+          npm install
+          npm run-script tsc
+          npm run-script webpack
 
-      - name: Npm Docs
+      - name: Generate docs
         run: npm run-script docs:generate
         
       - name: Deploy to GitHub Pages
@@ -49,4 +49,4 @@ jobs:
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: master
-          FOLDER: demo 
+          FOLDER: docs 
