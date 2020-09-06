@@ -45,7 +45,7 @@ jobs:
         run: npm run-script docs:generate
         
       - name: Deploy to GitHub Pages
-        uses: ganesh-vellanki/gs-grid
+        uses: 'ganesh-vellanki/gs-grid'
         with:
           target_branch: master
           build_dir: demo
