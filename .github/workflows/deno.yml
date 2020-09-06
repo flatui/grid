@@ -32,9 +32,6 @@ jobs:
         with:
           deno-version: ${{ matrix.deno }} # tests across multiple Deno versions
       
-      - name: Npm Install
-        run: npm install
-      
       - name: Install & Build
         run: |
           npm install
