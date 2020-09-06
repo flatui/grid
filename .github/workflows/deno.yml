@@ -45,9 +45,8 @@ jobs:
         run: npm run-script docs:generate
         
       - name: Deploy to GitHub Pages
-        uses: 'ganesh-vellanki/gs-grid'
+        uses: JamesIves/github-pages-deploy-action@3.5.9
         with:
-          target_branch: master
-          build_dir: demo
-        env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: master
+          FOLDER: demo 
