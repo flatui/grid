@@ -105,3 +105,4 @@ dist
 
 dist/
 docs/
+demo/index.bundle.js
