@@ -9,14 +9,16 @@
     "private": true,
     "scripts": {
         "tsc:watch": "tsc --watch",
-        "docs": "yarn typedoc --out ./demo/docs --readme none --mode file",
-        "build": "tsc & webpack",
         "tsc": "tsc",
         "webpack": "webpack",
-        "build:watch": "yarn build",
+        "rm": "rm",
+        "docs": "yarn typedoc --out ./demo/docs --readme none --mode file",
+        "build:src": "tsc && webpack",
+        "build:demo": "tsc ./demo/demo.ts",
         "prestart": "yarn build && yarn docs",
+        "build": "build:src && build:demo",
         "start": "webpack-dev-server",
-        "rm-dist": "rm -rf dist && rm -rf demo/docs && -rf demo/index.bundle.js"
+        "clean": "yarn rm -rf dist && yarn rm -rf demo/docs && yarn rm -rf demo/index.bundle.js"
     },
     "husky": {
         "hooks": {}
@@ -34,6 +36,7 @@
         "typescript": "^3.8.3",
         "webpack": "^4.42.0",
         "webpack-cli": "^3.3.11",
-        "webpack-dev-server": "^3.10.3"
+        "webpack-dev-server": "^3.10.3",
+        "rmrf": "~2.0.2"
     }
 }
