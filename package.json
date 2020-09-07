@@ -9,14 +9,14 @@
     "private": true,
     "scripts": {
         "tsc:watch": "tsc --watch",
+        "typedoc": "typedoc",
         "tsc": "tsc",
         "webpack": "webpack",
         "rm": "rm",
-        "docs": "yarn typedoc --out ./demo/docs --readme none --mode file",
+        "docs": "typedoc --out ./demo/docs --readme none --mode file",
         "build:src": "tsc && webpack",
-        "build:demo": "tsc ./demo/demo.ts",
         "prestart": "yarn build && yarn docs",
-        "build": "build:src && build:demo",
+        "build": "yarn build:src",
         "start": "webpack-dev-server",
         "clean": "yarn rm -rf dist && yarn rm -rf demo/docs && yarn rm -rf demo/index.bundle.js"
     },
