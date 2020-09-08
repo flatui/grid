@@ -3414,6 +3414,11 @@ ripemd160@^2.0.0, ripemd160@^2.0.1:
     hash-base "^3.0.0"
     inherits "^2.0.1"
 
+rmrf@~2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/rmrf/-/rmrf-2.0.2.tgz#f5675117dfacae3409654b2fef42b5a5d6777088"
+  integrity sha512-zXCldXnyxuFeeBqkJBnpgatV1uZPs07HANpxR4Vk3syIEelOVDRhhNrkE15HZSBgpE/pKuwAbMshtjroDwGRKQ==
+
 run-queue@^1.0.0, run-queue@^1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/run-queue/-/run-queue-1.0.3.tgz#e848396f057d223f24386924618e25694161ec47"

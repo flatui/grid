@@ -6,13 +6,9 @@
 # This workflow will install Deno and run tests across stable and nightly builds on Windows, Ubuntu and macOS.
 # For more information see: https://github.com/denolib/setup-deno
 
-name: gs-grid-CI
+name: gs-grid-ci
 
-on:
-  push:
-    branches: [master]
-  pull_request:
-    branches: [master]
+on: [push, pull_request]
 
 jobs:
   test:
@@ -34,17 +30,6 @@ jobs:
       
       - name: Install & Build
         run: |
-          npm install
-          npm run-script tsc
-          npm run-script webpack
-
-      - name: Generate docs
-        run: npm run-script docs
-        
-      - name: Deploy GitHub Pages
-        uses: crazy-max/ghaction-github-pages@v2.1.2
-        with:
-          target_branch: docs-branch
-          build_dir: demo
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          yarn clean
+          yarn install
+          yarn build
