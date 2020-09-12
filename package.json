@@ -19,7 +19,7 @@
         "build": "yarn build:src",
         "start": "webpack-dev-server",
         "clean": "yarn rm -rf dist && yarn rm -rf demo/docs && yarn rm -rf demo/index.bundle.js",
-        "dev": "yarn tsc && concurrently --kill-others \"yarn tsc:watch\" \"yarn webpack --watch\" \"yarn webpack-dev-server\""
+        "dev": "yarn build && yarn docs && concurrently --kill-others \"yarn tsc:watch\" \"yarn webpack --watch\" \"yarn webpack-dev-server\""
     },
     "husky": {
         "hooks": {}
