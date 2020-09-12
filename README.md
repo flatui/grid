@@ -11,5 +11,5 @@
 
 * Run demo & docs locally with: `yarn dev`
 
-* If necessary clean the generated dist & docs with: `yarn clean`
+* If necessary, clean locally generated dist & docs with: `yarn clean`
  
