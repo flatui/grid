@@ -6,9 +6,9 @@
       "outDir": "./dist/",
       "noImplicitAny": true,
       "sourceMap": true,
-      "module": "CommonJS",
+      "module": "ES2015",
       "target": "ES6",
-      "allowJs": true
-    },
-    "compileOnSave": true,
+      "allowJs": true,
+      "moduleResolution": "node"
+    }
   }
