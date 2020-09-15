@@ -29,7 +29,7 @@ jobs:
         uses: denolib/setup-deno@c7d7968ad4a59c159a777f79adddad6872ee8d96
         with:
           deno-version: ${{ matrix.deno }}
-      
+
       - name: Install & Build
         run: |
           yarn clean
@@ -38,7 +38,10 @@ jobs:
 
       - name: Generate docs
         run: yarn docs
-        
+
+      - name: Copy App
+        run: yarn copy:app
+
       - name: Deploy GitHub Pages
         uses: crazy-max/ghaction-github-pages@v2.1.2
         with:
