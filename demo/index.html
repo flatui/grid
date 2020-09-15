@@ -1,33 +1,13 @@
 <!DOCTYPE html>
+
 <html>
-
 <head>
-    <title>GS Grid</title>
-    <script src="index.bundle.js"></script>
-    <link href="style.css" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.min.css"/>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
 </head>
-
-<body>
-    <a target="_blank" class="git-fork-ribbon" href="https://github.com/ganesh-vellanki/gs-grid">
-        <img loading="lazy" width="149" height="149" src="https://github.blog/wp-content/uploads/2008/12/forkme_right_green_007200.png?resize=149%2C149" class="attachment-full size-full" alt="Fork me on GitHub" data-recalc-dims="1" />
-    </a>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-6">
-                <code>
-                    <h2>gs-grid</h2>
-                </code>
-            </div>
-            <div class="col-6 tex-right">
-                <a href="docs/index.html">Docs</a>
-            </div>
-        </div>
-        <div class="col-6 mt-3">
-            <gs-grid config="gridDemo.gridConfig"></gs-grid>
-        </div>
-    </div>
+<body id="gridApp">
+    <top-nav></top-nav>
+    <div class="container-fluid" id="koRouterHatch" data-bind="component: componentView"></div>
+    <script src="main.bundle.js"></script>
 </body>
-
 </html>
