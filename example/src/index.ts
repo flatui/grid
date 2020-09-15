@@ -10,9 +10,6 @@ class GridAppViewModel {
 
     constructor() {
         ComponentRegistry.registerAppComponents(ko);
-        ko.components.register('home', {
-            template: '<grid-intro></grid-intro><dev-engage></dev-engage>'
-        });
         this.componentView = ko.observable('home');
         this.initializeRouter();
     }
@@ -26,8 +23,26 @@ class GridAppViewModel {
         return [
             new RouteInfo(
                 {
-                    path: '/grid-intro',
-                    componentTag: 'grid-intro'
+                    path: '/',
+                    componentTag: 'home'
+                }
+            ),
+            new RouteInfo(
+                {
+                    path: '/demo',
+                    componentTag: 'demo'
+                }
+            ),
+            new RouteInfo(
+                {
+                    path: '/get-started',
+                    componentTag: 'get-started'
+                }
+            ),
+            new RouteInfo(
+                {
+                    path: '/what-and-why',
+                    componentTag: 'what-and-why'
                 }
             )
         ];
