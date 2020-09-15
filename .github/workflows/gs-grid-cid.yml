@@ -35,7 +35,6 @@ jobs:
           yarn clean
           yarn install
           yarn build
-          yarn copy:app
 
       - name: Generate docs
         run: yarn docs
