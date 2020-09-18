@@ -15,7 +15,7 @@
         "rm": "rm",
         "docs": "typedoc --out ./demo/docs --readme none --mode file",
         "build:src": "tsc && webpack",
-        "prestart": "yarn build && yarn docs",
+        "prestart": "yarn build && yarn docs && yarn copy:app",
         "build": "yarn build:src",
         "copy:app": "cp example/index.html demo/index.html & cp example/main.bundle.js demo/main.bundle.js & cp example/style.css demo/style.css",
         "start": "webpack-dev-server",
