@@ -14,7 +14,7 @@ export class GridEvents implements IGridEvents {
      * @param gridConfig Grid config object.
      */
     static setupGridConfig(instanceId: string, gridConfig: IGridConfig): void {
-        const gridNode = document.querySelector(`gs-grid[id=${instanceId}]`);
+        const gridNode = document.querySelector(`gs-grid[instance-id="${instanceId}"]`);
 
         const gridSetupEvent = new CustomEvent('x-gs-config-setup', {
             bubbles: true,
