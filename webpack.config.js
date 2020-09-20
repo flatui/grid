@@ -7,10 +7,7 @@ module.exports = {
     devServer: {
         liveReload: true,
         watchContentBase: true,
-        hot: false,
-        watchOptions: {
-            poll: true
-        }
+        publicPath: '/demo/'
     },
     module: {
         rules: [{

@@ -18,7 +18,7 @@
         "prestart": "yarn build && yarn docs && yarn copy:app",
         "build": "yarn build:src",
         "copy:app": "cp example/index.html demo/index.html & cp example/main.bundle.js demo/main.bundle.js & cp example/style.css demo/style.css",
-        "start": "webpack-dev-server",
+        "start": "webpack-dev-server --watch",
         "clean": "yarn rm -rf dist && yarn rm -rf demo/",
         "dev": "yarn build && yarn docs && concurrently --kill-others \"yarn tsc:watch\" \"yarn webpack --watch\" \"yarn webpack-dev-server\""
     },
