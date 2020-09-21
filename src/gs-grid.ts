@@ -41,7 +41,7 @@ export class GsGrid extends HTMLElement {
     }
 
     /**
-     * Initialize all attributes of gs-grd component.
+     * Initialize all attributes of gs-grid component.
      */
     private initPropsFromAttrs() {
         this.setAttribute('instance-id', this.instanceId);
