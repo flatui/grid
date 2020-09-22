@@ -1,0 +1,9 @@
+.header-row {
+    display: flex;
+    flex-direction: row;
+
+    .header-column {
+        display: flex;
+        flex-direction: column;
+    }
+}

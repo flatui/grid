@@ -1,4 +1,5 @@
-import { IGridConfig } from "./interface";
+import { IGridConfig, IGridRenderer } from "./interface";
+import { FlexHeaderRenderer } from "./renderers";
 
 /**
  * Gs grid component class.
@@ -25,6 +26,11 @@ export class GsGrid extends HTMLElement {
     private instanceId: string;
 
     /**
+     * Header renderer of gs grid
+     */
+    private headerRenderer: IGridRenderer;
+
+    /**
      * Creates an instance of gs-grid.
      */
     constructor() {
@@ -38,6 +44,7 @@ export class GsGrid extends HTMLElement {
      */
     connectedCallback() {
         this.initPropsFromAttrs();
+        this.attachShadow({mode: 'open'});
     }
 
     /**
@@ -83,6 +90,43 @@ export class GsGrid extends HTMLElement {
      */
     private onGridConfigSet(gridConfig: IGridConfig) {
         this.gridConfig = gridConfig;
+        
+        // Register all renderers.
+        this.registerRenderers(this.gridConfig);
+
+        // Initialize styles.
+        this.initializeStyles();
+
+        // Render grid header.
+        this.initializeHeader();
+    }
+
+    /**
+     * Registers renderers of header & column of grid.
+     * @param gridConfig 
+     */
+    registerRenderers(gridConfig: IGridConfig) {
+        // Register header renderer.
+        this.headerRenderer = new FlexHeaderRenderer(gridConfig.columnDefs.map(x => {
+            return { displayName: x.headerName, field: x.field }
+        }));
+    }
+
+    /**
+     * Initializes header
+     */
+    private initializeHeader() {
+        this.shadowRoot.appendChild(this.headerRenderer.render().cloneNode(true));
+    }
+
+    /**
+     * Initializes styles
+     */
+    private initializeStyles() {
+        const styleRoot = document.createElement('style');
+        const gsGridStyles = require('./styles/gs-grid.scss').default[0][1];
+        styleRoot.innerText = gsGridStyles.replace(/\n|\r/g, "");
+        this.shadowRoot.appendChild(styleRoot);
     }
 }
 
