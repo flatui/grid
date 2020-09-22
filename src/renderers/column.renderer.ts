@@ -20,14 +20,15 @@ export class FlexColumnRenderer implements IGridRenderer {
     /**
      * Renders flex column renderer
      */
-    render(): void {
+    render(): HTMLElement {
+        return document.createElement('div');
     }
 
     /**
      * Queues render
      * @returns render 
      */
-    queueRender(): Promise<boolean> {
-        return Promise.resolve(true);
+    queueRender(): Promise<HTMLElement> {
+        return Promise.resolve(this.render());
     }
 }
