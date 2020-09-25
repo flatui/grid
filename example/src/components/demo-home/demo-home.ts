@@ -1,5 +1,5 @@
 import * as gsGrid from '../../../../src';
-import { IGridColumn, IGridConfig } from '../../../../src/interface';
+import { IGridColumn } from '../../../../src/interface';
 import { GridConfig, GridEvents } from '../../../../src/model';
 
 class DemoHome {
@@ -20,7 +20,7 @@ class DemoHome {
             },
             {
                 field: 'username',
-                headerName: 'Header name'
+                headerName: 'User name'
             },
             {
                 field: 'email',
@@ -54,6 +54,7 @@ class DemoHome {
         gridConfig.columnDefs = this.buildGridColumns();
 
         this.usersList = await this.getUsers();
+        gridConfig.data = this.usersList;
         const gridEl = document.querySelector('gs-grid');
         if (gridEl) {
             GridEvents.setupGridConfig(gridEl.getAttribute('instance-id'), gridConfig);

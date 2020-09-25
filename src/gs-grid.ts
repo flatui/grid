@@ -1,5 +1,5 @@
 import { IGridConfig, IGridRenderer } from "./interface";
-import { FlexHeaderRenderer } from "./renderers";
+import { FlexDataRowRenderer, FlexHeaderRenderer } from "./renderers";
 
 /**
  * Gs grid component class.
@@ -26,9 +26,14 @@ export class GsGrid extends HTMLElement {
     private instanceId: string;
 
     /**
-     * Header renderer of gs grid
+     * Header renderer of gs grid.
      */
     private headerRenderer: IGridRenderer;
+
+    /**
+     * Data row renderer of gs grid.
+     */
+    private dataRowRenderer: IGridRenderer;
 
     /**
      * Creates an instance of gs-grid.
@@ -99,6 +104,9 @@ export class GsGrid extends HTMLElement {
 
         // Render grid header.
         this.initializeHeader();
+
+        // Render data rows.
+        this.initializeDataRows();
     }
 
     /**
@@ -106,10 +114,15 @@ export class GsGrid extends HTMLElement {
      * @param gridConfig 
      */
     registerRenderers(gridConfig: IGridConfig) {
-        // Register header renderer.
-        this.headerRenderer = new FlexHeaderRenderer(gridConfig.columnDefs.map(x => {
+        const rendererDataSet = gridConfig.columnDefs.map(x => {
             return { displayName: x.headerName, field: x.field }
-        }));
+        });
+
+        // Register header renderer.
+        this.headerRenderer = new FlexHeaderRenderer(rendererDataSet);
+
+        // Register data row renderer.
+        this.dataRowRenderer = new FlexDataRowRenderer(rendererDataSet);
     }
 
     /**
@@ -117,6 +130,14 @@ export class GsGrid extends HTMLElement {
      */
     private initializeHeader() {
         this.shadowRoot.appendChild(this.headerRenderer.render().cloneNode(true));
+    }
+
+    /**
+     * Initializes data rows
+     */
+    private initializeDataRows() {
+        const headerContainer = this.shadowRoot.querySelector('.header-row');
+        this.shadowRoot.append(this.dataRowRenderer.render({data: this.gridConfig.data, headerContainer}));
     }
 
     /**
