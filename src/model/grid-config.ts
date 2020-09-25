@@ -26,6 +26,11 @@ export class GridConfig implements IGridConfig {
     instance: IGridInstance;
 
     /**
+     * Data of grid config
+     */
+    data?: any[];
+
+    /**
      * Creates an instance of grid config.
      */
     constructor(){

@@ -6,5 +6,5 @@ export interface IGridColumn {
     valueFn?: () => string | number;
     enableSort?: boolean;
     enableFilter?: boolean;
-    pinColumn?: PinColumn    
+    pinColumn?: PinColumn;
 }

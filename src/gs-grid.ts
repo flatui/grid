@@ -1,4 +1,5 @@
-import { IGridConfig } from "./interface";
+import { IGridConfig, IGridRenderer } from "./interface";
+import { FlexDataRowRenderer, FlexHeaderRenderer } from "./renderers";
 
 /**
  * Gs grid component class.
@@ -25,6 +26,16 @@ export class GsGrid extends HTMLElement {
     private instanceId: string;
 
     /**
+     * Header renderer of gs grid.
+     */
+    private headerRenderer: IGridRenderer;
+
+    /**
+     * Data row renderer of gs grid.
+     */
+    private dataRowRenderer: IGridRenderer;
+
+    /**
      * Creates an instance of gs-grid.
      */
     constructor() {
@@ -38,10 +49,11 @@ export class GsGrid extends HTMLElement {
      */
     connectedCallback() {
         this.initPropsFromAttrs();
+        this.attachShadow({mode: 'open'});
     }
 
     /**
-     * Initialize all attributes of gs-grd component.
+     * Initialize all attributes of gs-grid component.
      */
     private initPropsFromAttrs() {
         this.setAttribute('instance-id', this.instanceId);
@@ -83,6 +95,59 @@ export class GsGrid extends HTMLElement {
      */
     private onGridConfigSet(gridConfig: IGridConfig) {
         this.gridConfig = gridConfig;
+        
+        // Register all renderers.
+        this.registerRenderers(this.gridConfig);
+
+        // Initialize styles.
+        this.initializeStyles();
+
+        // Render grid header.
+        this.initializeHeader();
+
+        // Render data rows.
+        this.initializeDataRows();
+    }
+
+    /**
+     * Registers renderers of header & column of grid.
+     * @param gridConfig 
+     */
+    registerRenderers(gridConfig: IGridConfig) {
+        const rendererDataSet = gridConfig.columnDefs.map(x => {
+            return { displayName: x.headerName, field: x.field }
+        });
+
+        // Register header renderer.
+        this.headerRenderer = new FlexHeaderRenderer(rendererDataSet);
+
+        // Register data row renderer.
+        this.dataRowRenderer = new FlexDataRowRenderer(rendererDataSet);
+    }
+
+    /**
+     * Initializes header
+     */
+    private initializeHeader() {
+        this.shadowRoot.appendChild(this.headerRenderer.render().cloneNode(true));
+    }
+
+    /**
+     * Initializes data rows
+     */
+    private initializeDataRows() {
+        const headerContainer = this.shadowRoot.querySelector('.header-row');
+        this.shadowRoot.append(this.dataRowRenderer.render({data: this.gridConfig.data, headerContainer}));
+    }
+
+    /**
+     * Initializes styles
+     */
+    private initializeStyles() {
+        const styleRoot = document.createElement('style');
+        const gsGridStyles = require('./styles/gs-grid.scss').default[0][1];
+        styleRoot.innerText = gsGridStyles.replace(/\n|\r/g, "");
+        this.shadowRoot.appendChild(styleRoot);
     }
 }
 
