@@ -1,2 +1,2 @@
 export { FlexHeaderRenderer } from './header.renderer';
-export { FlexColumnRenderer } from './column.renderer';
+export { FlexDataRowRenderer } from './data-row.renderer';

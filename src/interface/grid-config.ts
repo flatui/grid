@@ -1,6 +1,9 @@
 import { Observable } from "rxjs";
 import { IGridColumn, IGridInstance } from ".";
 
+/**
+ * Grid config interface.
+ */
 export interface IGridConfig {
     /**
      * Column defs of grid config
@@ -23,4 +26,9 @@ export interface IGridConfig {
      * @returns render complete subscription.
      */
     IsRenderComplete(): Observable<boolean>
+
+    /**
+     * data set to display
+     */
+    data?: any[];
 }

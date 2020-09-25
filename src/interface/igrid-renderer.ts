@@ -5,7 +5,7 @@ export interface IGridRenderer {
     /**
      * non render method, fire & forget.
      */
-    render(): HTMLElement;
+    render(data?: any): HTMLElement;
 
     /**
      * Sync renderer, renders & resolves promise once done.

@@ -23,7 +23,7 @@ export class FlexHeaderRenderer implements IGridRenderer {
     render(): HTMLElement {
         let colTemplate = '';
         this._renderCols.forEach(col => {
-            colTemplate += this.cellTemplateFragmentFn(col.displayName);
+            colTemplate += this.cellTemplateFragmentFn(col.displayName, col.field);
         });
 
         return this.rowTemplateFragmentFn(colTemplate);
@@ -37,8 +37,8 @@ export class FlexHeaderRenderer implements IGridRenderer {
         return await Promise.resolve(this.render());
     }
 
-    cellTemplateFragmentFn(cellValue: string): string {
-        return `<div class="header-column">${cellValue}</div>`;
+    cellTemplateFragmentFn(cellValue: string, field: string): string {
+        return `<div class="header-column" data-field="${field}">${cellValue}</div>`;
     }
 
     rowTemplateFragmentFn(cellTemplate: string): HTMLElement {
