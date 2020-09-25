@@ -9,7 +9,7 @@
 
 * Install packages locally with: `yarn install`
 
-* Run demo & docs locally with: `yarn dev`
+* Run demo & docs locally with: `yarn start`
 
 * If necessary, clean locally generated dist & docs with: `yarn clean`
  
