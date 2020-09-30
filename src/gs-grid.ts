@@ -1,5 +1,5 @@
 import { IGridConfig, IGridRenderer } from "./interface";
-import { FlexDataRowRenderer, FlexHeaderRenderer } from "./renderers";
+import { FlexHeaderRenderer, FlexDataRowRenderer } from "./renderers";
 
 /**
  * Gs grid component class.

@@ -38,7 +38,7 @@ export class FlexHeaderRenderer implements IGridRenderer {
     }
 
     cellTemplateFragmentFn(cellValue: string, field: string): string {
-        return `<div class="header-column" data-field="${field}">${cellValue}</div>`;
+        return `<div title="${cellValue}" class="header-column" data-field="${field}"><div class="cell-content">${cellValue}</div></div>`;
     }
 
     rowTemplateFragmentFn(cellTemplate: string): HTMLElement {
