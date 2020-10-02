@@ -1,11 +1,11 @@
 import { IGridRenderColumn, IGridRenderer } from "../interface";
 
 /**
- * Flex data row renderer
+ * Flex data row renderer.
  */
 export class FlexDataRowRenderer implements IGridRenderer {
     /**
-     * Render cols of flex column renderer
+     * Render cols of flex column renderer.
      */
     private _renderCols: IGridRenderColumn[];
     
@@ -18,13 +18,13 @@ export class FlexDataRowRenderer implements IGridRenderer {
     }
 
     /**
-     * Renders flex column renderer
+     * Renders flex column renderer.
      */
     render(renderOptions?: any): HTMLElement {
         const dataViewport = document.createElement('div');
         dataViewport.classList.add('data-viewport');
 
-        // get header cell width map
+        // get header cell width map.
         const boundingRectMap = this.getHeaderContainerCellBoundingRect(renderOptions);
 
         if(renderOptions.data && renderOptions.data.length > 0) {
@@ -42,7 +42,7 @@ export class FlexDataRowRenderer implements IGridRenderer {
     }
 
     /**
-     * Queues render
+     * Queues render.
      * @returns render 
      */
     queueRender(): Promise<HTMLElement> {

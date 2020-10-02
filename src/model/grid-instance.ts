@@ -1,10 +1,14 @@
 import { IGridInstance } from "../interface";
 
+
+/**
+ * Grid instance to handle operations on rendered grid.
+ */
 export class GridInstance implements IGridInstance {
     id: string;
 
-    constructor() {
-        this.id = '';
+    constructor(id: string) {
+        this.id = id;
     }
 
     refreshGrid(delay?: number): Promise<boolean> {
