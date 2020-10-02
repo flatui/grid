@@ -1,5 +1,8 @@
-import { PinColumn } from "../model";
+import { CellWidth, PinColumn } from "../model";
 
+/**
+ * Grid column interface.
+ */
 export interface IGridColumn {
     field: string;
     headerName: string;
@@ -7,4 +10,6 @@ export interface IGridColumn {
     enableSort?: boolean;
     enableFilter?: boolean;
     pinColumn?: PinColumn;
+    width?: number | string | CellWidth;
+    minWidth?: number | string;
 }
