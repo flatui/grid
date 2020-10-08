@@ -1,3 +1,4 @@
+import { CellUtilities } from "./core/cell.utilities";
 import { IGridConfig, IGridRenderer } from "./interface";
 import { FlexHeaderRenderer, FlexDataRowRenderer } from "./renderers";
 
@@ -34,6 +35,11 @@ export class GsGrid extends HTMLElement {
      * Data row renderer of gs grid.
      */
     private dataRowRenderer: IGridRenderer;
+
+    /**
+     * Cell utils of gs grid.
+     */
+    private cellUtils: CellUtilities;
 
     /**
      * Creates an instance of gs-grid.
@@ -95,6 +101,9 @@ export class GsGrid extends HTMLElement {
      */
     private onGridConfigSet(gridConfig: IGridConfig) {
         this.gridConfig = gridConfig;
+
+        // Initialize Cell utils with params.
+        this.cellUtils = new CellUtilities(this.clientWidth);
         
         // Register all renderers.
         this.registerRenderers(this.gridConfig);
@@ -115,11 +124,11 @@ export class GsGrid extends HTMLElement {
      */
     registerRenderers(gridConfig: IGridConfig) {
         const rendererDataSet = gridConfig.columnDefs.map(x => {
-            return { displayName: x.headerName, field: x.field }
+            return { displayName: x.headerName, field: x.field, width: x.width, minWidth: x.minWidth }
         });
 
         // Register header renderer.
-        this.headerRenderer = new FlexHeaderRenderer(rendererDataSet);
+        this.headerRenderer = new FlexHeaderRenderer(rendererDataSet, this.cellUtils);
 
         // Register data row renderer.
         this.dataRowRenderer = new FlexDataRowRenderer(rendererDataSet);
