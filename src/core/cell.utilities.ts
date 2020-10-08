@@ -7,8 +7,14 @@ export class CellUtilities {
      */
     private _cellConfigCache: ICellConfig[];
 
-    constructor() {
+    /**
+     * Grid width of cell utilities
+     */
+    private gridWidth: number;
+
+    constructor(gridWidth?: number) {
         this._cellConfigCache = [];
+        this.gridWidth = gridWidth;
     }
 
     /**
@@ -18,7 +24,7 @@ export class CellUtilities {
      * @param gridWidth width of grid body. 
      * @returns computed grid column widths.
      */
-    computeCellEssentials(cells: ICellConfig[], forceCalc: boolean, gridWidth: number) {
+    computeCellEssentials(cells: ICellConfig[], forceCalc: boolean) {
         if(forceCalc) {
             this._cellConfigCache = [];
         }
@@ -41,7 +47,7 @@ export class CellUtilities {
         // percentage -> /^[0-9]+%/g
         // px -> /^[0-9]+px/g
 
-        let availableWidthToSpawn = gridWidth - totalCellWidth;
+        let availableWidthToSpawn = this.gridWidth - totalCellWidth;
 
         // FIXME: Need to find a way for cell width other than Auto.
         const autoCellsAvailable = cells.filter(c => c.width === CellWidth.Auto || c.width === CellWidth.FitToContent || CellWidth.Flexible).length;
