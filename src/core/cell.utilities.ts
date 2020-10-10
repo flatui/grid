@@ -12,6 +12,10 @@ export class CellUtilities {
      */
     private gridWidth: number;
 
+    /**
+     * Creates an instance of cell utilities.
+     * @param [gridWidth] available grid width.
+     */
     constructor(gridWidth?: number) {
         this._cellConfigCache = [];
         this.gridWidth = gridWidth;
@@ -46,7 +50,6 @@ export class CellUtilities {
         // need to calculate individual cell widths.
         // percentage -> /^[0-9]+%/g
         // px -> /^[0-9]+px/g
-
         let availableWidthToSpawn = this.gridWidth - totalCellWidth;
 
         // FIXME: Need to find a way for cell width other than Auto.
@@ -75,5 +78,24 @@ export class CellUtilities {
                 cell.renderWidth = individualCellWidthForAutoColumns + 'px';
             }
         });
+
+        this._cellConfigCache = [...cells];
+    }
+
+    /**
+     * Gets all cell utils.
+     * @returns all cell utils.
+     */
+    getAllCellUtils(): ICellConfig[] {
+        return this._cellConfigCache;
+    }
+
+    /**
+     * Gets cell utils by field name
+     * @param field search by field name.
+     * @returns cell utils.
+     */
+    getCellUtilsByFieldName(field: string): ICellConfig {
+        return this._cellConfigCache.find(c => c.field === field);
     }
 }
