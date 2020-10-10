@@ -1,3 +1,4 @@
+import { CellUtilities } from "../core/cell.utilities";
 import { IGridRenderColumn, IGridRenderer } from "../interface";
 
 /**
@@ -8,13 +9,19 @@ export class FlexDataRowRenderer implements IGridRenderer {
      * Render cols of flex column renderer.
      */
     private _renderCols: IGridRenderColumn[];
+
+    /**
+     * Cell utils of flex header renderer
+     */
+    private _cellUtils: CellUtilities;
     
     /**
      * Creates an instance of flex column renderer.
      * @param columns 
      */
-    constructor(columns: IGridRenderColumn[]) {
+    constructor(columns: IGridRenderColumn[], cellUtils: CellUtilities) {
         this._renderCols = columns;
+        this._cellUtils = cellUtils;
     }
 
     /**
@@ -24,15 +31,11 @@ export class FlexDataRowRenderer implements IGridRenderer {
         const dataViewport = document.createElement('div');
         dataViewport.classList.add('data-viewport');
 
-        // get header cell width map.
-        const boundingRectMap = this.getHeaderContainerCellBoundingRect(renderOptions);
-
         if(renderOptions.data && renderOptions.data.length > 0) {
             (renderOptions.data as any[]).forEach(dataRow => {
                 let colTemplate = '';
                 this._renderCols.forEach(col => {
-                    const boundingRect = boundingRectMap.find(x => x.field === col.field);
-                    colTemplate += this.cellTemplateFragmentFn(col.field, dataRow, boundingRect ? boundingRect.map.width: '');
+                    colTemplate += this.cellTemplateFragmentFn(col.field, dataRow);
                 });
                 dataViewport.append(this.rowTemplateFragmentFn(colTemplate));
             });
@@ -49,9 +52,10 @@ export class FlexDataRowRenderer implements IGridRenderer {
         return Promise.resolve(this.render());
     }
 
-    cellTemplateFragmentFn(field: string, data: any, width: string): string {
+    cellTemplateFragmentFn(field: string, data: any): string {
+        const cellUtils = this._cellUtils.getCellUtilsByFieldName(field);
         const cellValue = this.getCellValue(field, data);
-        return `<div title="${cellValue}" class="cell-column" style="width: ${width}px"><div class="cell-content">${cellValue}</div></div>`;
+        return `<div title="${cellValue}" class="cell-column" style="width: ${cellUtils.renderWidth}"><div class="cell-content">${cellValue}</div></div>`;
     }
 
     rowTemplateFragmentFn(cellTemplate: string): HTMLElement {
@@ -59,23 +63,6 @@ export class FlexDataRowRenderer implements IGridRenderer {
         dataRowContainer.classList.add('data-row');
         dataRowContainer.innerHTML = cellTemplate;
         return dataRowContainer;
-    }
-
-    private getHeaderContainerCellBoundingRect(renderOptions: any) {
-        const boundingRectMap: any[] = [];
-        if(renderOptions.headerContainer) {
-            this._renderCols.forEach(col => {
-                const headerCol = renderOptions.headerContainer.querySelector(`div[data-field="${col.field}"]`);
-                if(headerCol) {
-                    const boundingRect: any = {};
-                    boundingRect.field = col.field;
-                    boundingRect.map = headerCol.getBoundingClientRect();
-                    boundingRectMap.push(boundingRect);
-                }
-            });
-        }
-
-        return boundingRectMap;
     }
 
     getCellValue(field: string, data: any) {
