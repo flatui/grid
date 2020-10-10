@@ -1,4 +1,5 @@
 import { IGridRenderColumn } from "../interface";
+import { CellWidth } from "./grid-constants";
 
 /**
  * Grid renderer column model.
@@ -20,6 +21,16 @@ export class GridRendererColumn implements IGridRenderColumn {
     value?: string;
 
     /**
+     * Width  of grid renderer column
+     */
+    width: string | CellWidth;
+
+    /**
+     * Min width of grid renderer column
+     */
+    minWidth: string | CellWidth;
+
+    /**
      * Creates an instance of grid renderer column.
      * @param args 
      */
@@ -27,5 +38,7 @@ export class GridRendererColumn implements IGridRenderColumn {
         this.field = args.field;
         this.displayName = args.displayName;
         this.value = args.value ? args.value : null;
+        this.width = args.width ? args.value : CellWidth.Auto;
+        this.minWidth = args.minWidth ? args.minWidth : CellWidth.Auto;
     }
 }

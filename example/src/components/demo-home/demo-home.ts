@@ -36,7 +36,8 @@ class DemoHome {
             },
             {
                 field: 'address.city',
-                headerName: 'City'
+                headerName: 'City',
+                width: 120
             },
             {
                 field: 'company.name',
@@ -44,7 +45,8 @@ class DemoHome {
             },
             {
                 field: 'address.zipcode',
-                headerName: 'Zip'
+                headerName: 'Zip',
+                width: 100
             }
         ];
     }
