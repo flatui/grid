@@ -1,5 +1,5 @@
 .header-row {
-    display: flex;
+    display: inline-flex;
     flex-direction: row;
     background-color: #e8e8e8;
     border-bottom: 1px solid #d3d3d3;
@@ -30,11 +30,11 @@
 }
 
 .data-viewport {
-    display: flex;
+    display: inline-flex;
     flex-direction: column;
 
     .data-row {
-        display: flex;
+        display: inline-flex;
         flex-direction: row;
         border-bottom: 1px solid #d3d3d3;
         border-right: 1px solid #d3d3d3;
