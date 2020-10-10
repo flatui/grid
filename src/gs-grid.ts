@@ -1,5 +1,6 @@
 import { CellUtilities } from "./core/cell.utilities";
 import { IGridConfig, IGridRenderer } from "./interface";
+import { GridColumn } from "./model";
 import { FlexHeaderRenderer, FlexDataRowRenderer } from "./renderers";
 
 /**
@@ -101,9 +102,10 @@ export class GsGrid extends HTMLElement {
      */
     private onGridConfigSet(gridConfig: IGridConfig) {
         this.gridConfig = gridConfig;
+        this.gridConfig.columnDefs = gridConfig.columnDefs.map(c => new GridColumn(c));
 
         // Initialize Cell utils with params.
-        this.cellUtils = new CellUtilities(this.clientWidth);
+        this.cellUtils = new CellUtilities(this.getAvailableWidth());
         
         // Register all renderers.
         this.registerRenderers(this.gridConfig);
@@ -131,18 +133,18 @@ export class GsGrid extends HTMLElement {
         this.headerRenderer = new FlexHeaderRenderer(rendererDataSet, this.cellUtils);
 
         // Register data row renderer.
-        this.dataRowRenderer = new FlexDataRowRenderer(rendererDataSet);
+        this.dataRowRenderer = new FlexDataRowRenderer(rendererDataSet, this.cellUtils);
     }
 
     /**
-     * Initializes header
+     * Initializes header.
      */
     private initializeHeader() {
         this.shadowRoot.appendChild(this.headerRenderer.render().cloneNode(true));
     }
 
     /**
-     * Initializes data rows
+     * Initializes data rows.
      */
     private initializeDataRows() {
         const headerContainer = this.shadowRoot.querySelector('.header-row');
@@ -150,13 +152,21 @@ export class GsGrid extends HTMLElement {
     }
 
     /**
-     * Initializes styles
+     * Initializes styles.
      */
     private initializeStyles() {
         const styleRoot = document.createElement('style');
         const gsGridStyles = require('./styles/gs-grid.scss').default[0][1];
         styleRoot.innerText = gsGridStyles.replace(/\n|\r/g, "");
         this.shadowRoot.appendChild(styleRoot);
+    }
+
+    /**
+     * Gets available width for grid.
+     * @returns available width for grid, either itself or parent.
+     */
+    private getAvailableWidth(): number {
+        return this.clientWidth || this.parentElement.clientWidth;
     }
 }
 
