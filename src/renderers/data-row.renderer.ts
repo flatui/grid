@@ -11,13 +11,13 @@ export class FlexDataRowRenderer implements IGridRenderer {
     private _renderCols: IGridRenderColumn[];
 
     /**
-     * Cell utils of flex header renderer
+     * Cell utils of flex header renderer.
      */
     private _cellUtils: CellUtilities;
     
     /**
      * Creates an instance of flex column renderer.
-     * @param columns 
+     * @param columns grid columns.
      */
     constructor(columns: IGridRenderColumn[], cellUtils: CellUtilities) {
         this._renderCols = columns;
@@ -45,27 +45,44 @@ export class FlexDataRowRenderer implements IGridRenderer {
     }
 
     /**
-     * Queues render.
-     * @returns render 
+     * Queues render async.
+     * @returns render.
      */
     queueRender(): Promise<HTMLElement> {
         return Promise.resolve(this.render());
     }
 
-    cellTemplateFragmentFn(field: string, data: any): string {
+    /**
+     * Cells template fragment method.
+     * @param field cell field.
+     * @param data field data.
+     * @returns template fragment method.
+     */
+    private cellTemplateFragmentFn(field: string, data: any): string {
         const cellUtils = this._cellUtils.getCellUtilsByFieldName(field);
         const cellValue = this.getCellValue(field, data);
         return `<div title="${cellValue}" class="cell-column" style="width: ${cellUtils.renderWidth}"><div class="cell-content">${cellValue}</div></div>`;
     }
 
-    rowTemplateFragmentFn(cellTemplate: string): HTMLElement {
+    /**
+     * Rows template fragment method.
+     * @param cellTemplate cell template string.
+     * @returns template fragment method.
+     */
+    private rowTemplateFragmentFn(cellTemplate: string): HTMLElement {
         const dataRowContainer = document.createElement('div');
         dataRowContainer.classList.add('data-row');
         dataRowContainer.innerHTML = cellTemplate;
         return dataRowContainer;
     }
 
-    getCellValue(field: string, data: any) {
+    /**
+     * Gets cell value for field, including nested dot syntax.
+     * @param field cell field.
+     * @param data row data object.
+     * @returns cell data.
+     */
+    private getCellValue(field: string, data: any) {
         const isDotNotated = field.indexOf('.');
 
         if(isDotNotated > -1) {

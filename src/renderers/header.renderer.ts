@@ -2,16 +2,16 @@ import { CellUtilities } from "../core/cell.utilities";
 import { ICellConfig, IGridRenderColumn, IGridRenderer } from "../interface";
 
 /**
- * Flex header renderer
+ * Flex header renderer.
  */
 export class FlexHeaderRenderer implements IGridRenderer {
     /**
-     * Render cols of flex header renderer
+     * Render cols of flex header renderer.
      */
     private _renderCols: IGridRenderColumn[];
 
     /**
-     * Cell utils of flex header renderer
+     * Cell utils of flex header renderer.
      */
     private _cellUtils: CellUtilities;
 
@@ -26,7 +26,7 @@ export class FlexHeaderRenderer implements IGridRenderer {
     }
 
     /**
-     * Renders flex header renderer
+     * Renders flex header renderer.
      */
     render(): HTMLElement {
         const cellConfigItems: ICellConfig[] = this._renderCols.map(c => { return {field: c.field, width: c.width, renderWidth: ''}});
@@ -40,19 +40,30 @@ export class FlexHeaderRenderer implements IGridRenderer {
     }
 
     /**
-     * Queues render
-     * @returns render 
+     * Queues render async.
+     * @returns render.
      */
     async queueRender(): Promise<HTMLElement> {
         return await Promise.resolve(this.render());
     }
 
-    cellTemplateFragmentFn(cellValue: string, field: string): string {
+    /**
+     * Cells template fragment method.
+     * @param cellValue cell value.
+     * @param field cell field.
+     * @returns template fragment method.
+     */
+    private cellTemplateFragmentFn(cellValue: string, field: string): string {
         const cellUtil = this._cellUtils.getCellUtilsByFieldName(field);
         return `<div title="${cellValue}" style="width: ${cellUtil.renderWidth}" class="header-column" data-field="${field}"><div class="cell-content">${cellValue}</div></div>`;
     }
 
-    rowTemplateFragmentFn(cellTemplate: string): HTMLElement {
+    /**
+     * Rows template fragment method.
+     * @param cellTemplate template string.
+     * @returns row template fragment element.
+     */
+    private rowTemplateFragmentFn(cellTemplate: string): HTMLElement {
         const headerContainer = document.createElement('div')
         headerContainer.classList.add('header-row');
         headerContainer.innerHTML = cellTemplate;
