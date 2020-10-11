@@ -32,6 +32,7 @@
 .data-viewport {
     display: inline-flex;
     flex-direction: column;
+    position: relative;
 
     .data-row {
         display: inline-flex;
@@ -58,6 +59,38 @@
 
             &:last-child {
                 border-right: 0;
+            }
+        }
+    }
+
+    .smart-scroll {
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 10px;
+        height: 100%;
+        opacity: 0.7;
+        background-color: transparent;
+        transition: background-color 0.5s ease-in-out;
+
+        .scroll-bar {
+            cursor: ns-resize;
+            position: relative;
+            border-radius: 5px;
+            height: 20px;
+            background-color: transparent;
+            opacity: 0.6;
+            width: 10px;
+            transition: background-color 0.5s ease-in-out;
+        }
+    }
+
+    &:hover {
+        .smart-scroll {
+            background-color: #d3d3d3;
+
+            .scroll-bar {
+                background-color: black;
             }
         }
     }
