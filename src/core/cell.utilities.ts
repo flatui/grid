@@ -1,6 +1,9 @@
 import { ICellConfig } from "../interface/icell-config";
 import { CellWidth } from "../model";
 
+/**
+ * Cell utilities.
+ */
 export class CellUtilities {
     /**
      * Cell config cache.
