@@ -2,6 +2,7 @@ import { CellUtilities } from "./core/cell.utilities";
 import { IGridConfig, IGridRenderer } from "./interface";
 import { GridColumn } from "./model";
 import { FlexHeaderRenderer, FlexDataRowRenderer, ScrollRenderer } from "./renderers";
+import { ScrollUtilities } from './core/scroll.utilities';
 
 /**
  * Gs grid component class.
@@ -126,6 +127,12 @@ export class GsGrid extends HTMLElement {
 
         // Render scroll bar.
         this.initializeScrollBar();
+
+        // Init smart scroll.
+        var smartScroll = new ScrollUtilities(this.shadowRoot);
+        setTimeout(() => {
+            smartScroll.registerSmartScrollEvents();
+        }, 2000);
     }
 
     /**
