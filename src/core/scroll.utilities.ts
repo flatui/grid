@@ -7,15 +7,32 @@ export class ScrollUtilities {
      */
     private shadowRoot: ShadowRoot;
 
+    /**
+     * Determines whether scroll bar activated.
+     */
     private isScrollBarActivated: boolean;
 
-    private previousY: number;
+    /**
+     * Y max of scroll utilities.
+     */
+    private yMax: number;
+
+    /**
+     * Y min of scroll utilities.
+     */
+    private yMin: number;
+
+    /**
+     * Scroll bar height of scroll utilities.
+     */
+    private scrollBarHeight: number;
 
     /**
      * Creates an instance of scroll utilities.
      */
     constructor(shadowRoot: ShadowRoot) {
         this.shadowRoot = shadowRoot;
+        this.setScrollBounds();
     }
 
     /**
@@ -29,12 +46,12 @@ export class ScrollUtilities {
         const drag = (event: MouseEvent) => {this.drag(event)};
 
         scrollContainer.addEventListener("touchstart", dragStart, false);
-        scrollContainer.addEventListener("touchend", dragEnd, false);
-        scrollContainer.addEventListener("touchmove", drag, false);
+        document.addEventListener("touchend", dragEnd, false);
+        document.addEventListener("touchmove", drag, false);
 
         scrollContainer.addEventListener("mousedown", dragStart, false);
-        scrollContainer.addEventListener("mouseup", dragEnd, false);
-        scrollContainer.addEventListener("mousemove", drag, false);
+        document.addEventListener("mouseup", dragEnd, false);
+        document.addEventListener("mousemove", drag, false);
     }
 
     /**
@@ -43,7 +60,12 @@ export class ScrollUtilities {
     unRegisterSmartScrollEvents(): void {
     }
 
+    /**
+     * Drags start event.
+     * @param event Mouse event.
+     */
     dragStart(event: MouseEvent): void {
+        this.setScrollBounds();
         const scrollBar = this.getGridScrollElement();
 
         if (event.type === "touchstart") {
@@ -52,25 +74,34 @@ export class ScrollUtilities {
           }
         
           if (event.target === scrollBar) {
-              this.isScrollBarActivated = true;
-              this.previousY = event.clientY;
+            this.isScrollBarActivated = true;
           }
     }
 
+    /**
+     * Drags end event.
+     * @param event Mouse event.
+     */
     dragEnd(event: MouseEvent): void {
         this.isScrollBarActivated = false;
-        this.previousY = event.clientY;
     }
 
+    /**
+     * Drags scroll utilities.
+     * @param event Mouse event.
+     */
     drag(event: MouseEvent): void {
         const scrollBar = this.getGridScrollElement();
 
         if(this.isScrollBarActivated) {
             event.preventDefault();
-    
+
             if (event.type === "touchmove") {
             } else {
-                scrollBar.style.top = (event.clientY-this.previousY) + 'px';
+                if (this.isPositionInBounds(event.clientY)) {
+                    const relativeY = event.clientY - this.yMin;
+                    scrollBar.style.top = relativeY + 'px';
+                }
             }
         }
     }
@@ -83,7 +114,31 @@ export class ScrollUtilities {
         return this.shadowRoot.querySelector('.scroll-bar');
     }
 
+    /**
+     * Gets grid scroll container.
+     * @returns grid scroll container.
+     */
     private getGridScrollContainer(): HTMLElement {
         return this.shadowRoot.querySelector('.smart-scroll');
+    }
+
+    /**
+     * Determines whether position is in bounds.
+     * @param yPosition position from event.
+     * @returns true if in bounds.
+     */
+    private isPositionInBounds(yPosition: number) {
+        return (yPosition >= this.yMin) && (yPosition + this.scrollBarHeight <= this.yMax);
+    }
+
+    /**
+     * Sets scroll bounds.
+     */
+    private setScrollBounds() {
+        const elementContainer = this.getGridScrollContainer();
+        const scrollBar = this.getGridScrollElement();
+        this.yMin = elementContainer.getBoundingClientRect().top;
+        this.yMax = elementContainer.getBoundingClientRect().bottom;
+        this.scrollBarHeight = scrollBar.getBoundingClientRect().height;
     }
 }
