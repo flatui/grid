@@ -242,11 +242,17 @@ export class ScrollUtilities {
         }, 500);
     }
 
+    /**
+     * Enables smooth scroll with transitions.
+     */
     private enableSmoothScroll() {
         const scrollContainer = this.getGridScrollContainer();
         scrollContainer.classList.add('smooth-scroll');
     }
 
+    /**
+     * Disables smooth scroll.
+     */
     private disableSmoothScroll() {
         const scrollContainer = this.getGridScrollContainer();
         setTimeout(() => {
