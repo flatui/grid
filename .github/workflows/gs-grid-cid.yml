@@ -10,7 +10,7 @@ name: gs-grid-cid
 
 on:
   push:
-    branches: [master]
+    branches: [main]
 
 jobs:
   test:
