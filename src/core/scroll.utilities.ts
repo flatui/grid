@@ -55,7 +55,6 @@ export class ScrollUtilities {
      */
     registerSmartScrollEvents(): void {
         const scrollContainer = this.getGridScrollContainer();
-        const scrollBarContainer = this.getGridScrollBar();
         const viewportContainer = this.getGridViewport();
 
         scrollContainer.addEventListener("touchstart", this.dragStartCallback, false);
@@ -74,13 +73,9 @@ export class ScrollUtilities {
             this.onScrollContainerClick(event);
         };
 
-        scrollBarContainer.onclick = (event: WheelEvent) => {
-            this.onScrollContainerWheel(event);
-        }
-
         viewportContainer.onwheel = (event: WheelEvent) => {
             this.onScrollContainerWheel(event);
-        }
+        };
     }
 
     /**
@@ -88,7 +83,8 @@ export class ScrollUtilities {
      */
     unRegisterSmartScrollEvents(): void {
         const scrollContainer = this.getGridScrollContainer();
-        
+        const viewportContainer = this.getGridViewport();
+
         scrollContainer.removeEventListener("touchstart", this.dragStartCallback, false);
         document.removeEventListener("touchend", this.dragEndCallback, false);
         document.removeEventListener("touchmove", this.dragCallback, false);
@@ -96,8 +92,10 @@ export class ScrollUtilities {
         scrollContainer.removeEventListener("mousedown", this.dragStartCallback, false);
         document.removeEventListener("mouseup", this.dragEndCallback, false);
         document.removeEventListener("mousemove", this.dragCallback, false);
+
         scrollContainer.onclick = null;
         scrollContainer.onwheel = null;
+        viewportContainer.onwheel = null;
     }
 
     /**
@@ -178,8 +176,12 @@ export class ScrollUtilities {
         // Dispatch mock drag event for every click as mousemove event.
         this.isScrollBarActivated = true;
         this.setScrollBounds();
+        this.enableSmoothScroll();
+        this.setScrollVisibility();
         this.drag(new MouseEvent('mousemove', event));
         this.isScrollBarActivated = false;
+        this.disableSmoothScroll();
+        this.resetScrollVisibility();
     }
 
     /**
@@ -235,6 +237,20 @@ export class ScrollUtilities {
      */
     private resetScrollVisibility() {
         const scrollContainer = this.getGridScrollContainer();
-        scrollContainer.classList.remove('scrolling');
+        setTimeout(() => {
+            scrollContainer.classList.remove('scrolling');
+        }, 500);
+    }
+
+    private enableSmoothScroll() {
+        const scrollContainer = this.getGridScrollContainer();
+        scrollContainer.classList.add('smooth-scroll');
+    }
+
+    private disableSmoothScroll() {
+        const scrollContainer = this.getGridScrollContainer();
+        setTimeout(() => {
+            scrollContainer.classList.remove('smooth-scroll');
+        }, 500);
     }
 }
