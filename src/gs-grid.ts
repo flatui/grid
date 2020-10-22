@@ -1,7 +1,8 @@
 import { CellUtilities } from "./core/cell.utilities";
 import { IGridConfig, IGridRenderer } from "./interface";
 import { GridColumn } from "./model";
-import { FlexHeaderRenderer, FlexDataRowRenderer } from "./renderers";
+import { FlexHeaderRenderer, FlexDataRowRenderer, ScrollRenderer } from "./renderers";
+import { ScrollUtilities } from './core/scroll.utilities';
 
 /**
  * Gs grid component class.
@@ -36,6 +37,11 @@ export class GsGrid extends HTMLElement {
      * Data row renderer of gs grid.
      */
     private dataRowRenderer: IGridRenderer;
+
+    /**
+     * Scroll renderer of gs grid.
+     */
+    private scrollRenderer: IGridRenderer;
 
     /**
      * Cell utils of gs grid.
@@ -98,7 +104,7 @@ export class GsGrid extends HTMLElement {
 
     /**
      * Callback to set event config.
-     * @param gridConfig 
+     * @param gridConfig grid config param.
      */
     private onGridConfigSet(gridConfig: IGridConfig) {
         this.gridConfig = gridConfig;
@@ -117,7 +123,16 @@ export class GsGrid extends HTMLElement {
         this.initializeHeader();
 
         // Render data rows.
-        this.initializeDataRows();
+        this.initializeViewport();
+
+        // Render scroll bar.
+        this.initializeScrollBar();
+
+        // Init smart scroll.
+        var smartScroll = new ScrollUtilities(this.shadowRoot);
+        setTimeout(() => {
+            smartScroll.registerSmartScrollEvents();
+        }, 2000);
     }
 
     /**
@@ -134,6 +149,9 @@ export class GsGrid extends HTMLElement {
 
         // Register data row renderer.
         this.dataRowRenderer = new FlexDataRowRenderer(rendererDataSet, this.cellUtils);
+
+        // Register viewport scroll renderer.
+        this.scrollRenderer = new ScrollRenderer();
     }
 
     /**
@@ -144,11 +162,20 @@ export class GsGrid extends HTMLElement {
     }
 
     /**
-     * Initializes data rows.
+     * Initializes viewport.
      */
-    private initializeDataRows() {
-        const headerContainer = this.shadowRoot.querySelector('.header-row');
-        this.shadowRoot.append(this.dataRowRenderer.render({data: this.gridConfig.data, headerContainer}));
+    private initializeViewport() {
+        this.shadowRoot.append(this.dataRowRenderer.render({ data: this.gridConfig.data }));
+    }
+
+    /**
+     * Initializes scroll bar for viewport.
+     */
+    private initializeScrollBar() {
+        const viewport = this.shadowRoot.querySelector('.data-viewport');
+        if (viewport) {
+            viewport.append(this.scrollRenderer.render());
+        }
     }
 
     /**
