@@ -28,6 +28,21 @@ export class ScrollUtilities {
     private scrollBarHeight: number;
 
     /**
+     * Drag start callback of scroll utilities.
+     */
+    private dragStartCallback = (event:MouseEvent) => { this.dragStart(event) };
+
+    /**
+     * Drag end callback of scroll utilities.
+     */
+    private dragEndCallback = (event: MouseEvent) => {this.dragEnd(event)};
+
+    /**
+     * Drag callback of scroll utilities.
+     */
+    private dragCallback = (event: MouseEvent) => {this.drag(event)};
+
+    /**
      * Creates an instance of scroll utilities.
      */
     constructor(shadowRoot: ShadowRoot) {
@@ -40,24 +55,49 @@ export class ScrollUtilities {
      */
     registerSmartScrollEvents(): void {
         const scrollContainer = this.getGridScrollContainer();
+        const scrollBarContainer = this.getGridScrollBar();
+        const viewportContainer = this.getGridViewport();
 
-        const dragStart = (event:MouseEvent) => { this.dragStart(event) };
-        const dragEnd = (event: MouseEvent) => {this.dragEnd(event)};
-        const drag = (event: MouseEvent) => {this.drag(event)};
+        scrollContainer.addEventListener("touchstart", this.dragStartCallback, false);
+        document.addEventListener("touchend", this.dragEndCallback, false);
+        document.addEventListener("touchmove", this.dragCallback, false);
 
-        scrollContainer.addEventListener("touchstart", dragStart, false);
-        document.addEventListener("touchend", dragEnd, false);
-        document.addEventListener("touchmove", drag, false);
+        scrollContainer.addEventListener("mousedown", this.dragStartCallback, false);
+        document.addEventListener("mouseup", this.dragEndCallback, false);
+        document.addEventListener("mousemove", this.dragCallback, false);
 
-        scrollContainer.addEventListener("mousedown", dragStart, false);
-        document.addEventListener("mouseup", dragEnd, false);
-        document.addEventListener("mousemove", drag, false);
+        scrollContainer.onwheel = (event: WheelEvent) => {
+            this.onScrollContainerWheel(event);
+        };
+
+        scrollContainer.onclick = (event: MouseEvent) => {
+            this.onScrollContainerClick(event);
+        };
+
+        scrollBarContainer.onclick = (event: WheelEvent) => {
+            this.onScrollContainerWheel(event);
+        }
+
+        viewportContainer.onwheel = (event: WheelEvent) => {
+            this.onScrollContainerWheel(event);
+        }
     }
 
     /**
      * register smart scroll events.
      */
     unRegisterSmartScrollEvents(): void {
+        const scrollContainer = this.getGridScrollContainer();
+        
+        scrollContainer.removeEventListener("touchstart", this.dragStartCallback, false);
+        document.removeEventListener("touchend", this.dragEndCallback, false);
+        document.removeEventListener("touchmove", this.dragCallback, false);
+
+        scrollContainer.removeEventListener("mousedown", this.dragStartCallback, false);
+        document.removeEventListener("mouseup", this.dragEndCallback, false);
+        document.removeEventListener("mousemove", this.dragCallback, false);
+        scrollContainer.onclick = null;
+        scrollContainer.onwheel = null;
     }
 
     /**
@@ -65,17 +105,15 @@ export class ScrollUtilities {
      * @param event Mouse event.
      */
     dragStart(event: MouseEvent): void {
-        this.setScrollBounds();
-        const scrollBar = this.getGridScrollElement();
+        if (event.type === "touchstart" || event.type === 'mousedown') {
+            this.setScrollBounds();
+            this.setScrollVisibility();
+            const scrollBar = this.getGridScrollBar();
 
-        if (event.type === "touchstart") {
-          }
-          else {
-          }
-        
-          if (event.target === scrollBar) {
-            this.isScrollBarActivated = true;
-          }
+            if (event.target === scrollBar) {
+                this.isScrollBarActivated = true;
+            }
+        }
     }
 
     /**
@@ -84,6 +122,7 @@ export class ScrollUtilities {
      */
     dragEnd(event: MouseEvent): void {
         this.isScrollBarActivated = false;
+        this.resetScrollVisibility();
     }
 
     /**
@@ -91,26 +130,63 @@ export class ScrollUtilities {
      * @param event Mouse event.
      */
     drag(event: MouseEvent): void {
-        const scrollBar = this.getGridScrollElement();
-
-        if(this.isScrollBarActivated) {
+        if((event.type === "touchmove" || event.type === 'mousemove') 
+            && this.isScrollBarActivated
+            && this.isPositionInBounds(event.clientY)) 
+        {
             event.preventDefault();
-
-            if (event.type === "touchmove") {
-            } else {
-                if (this.isPositionInBounds(event.clientY)) {
-                    const relativeY = event.clientY - this.yMin;
-                    scrollBar.style.top = relativeY + 'px';
-                }
-            }
+            event.stopImmediatePropagation();
+            const scrollBar = this.getGridScrollBar();
+            const relativeY = event.clientY - this.yMin;
+            scrollBar.style.top = relativeY + 'px';
         }
     }
 
     /**
-     * Gets scroll element.
-     * @returns scroll element
+     * Wheel event on scroll container.
+     * @param event Wheel event.
      */
-    private getGridScrollElement(): HTMLElement {
+    onScrollContainerWheel(event: WheelEvent): void {
+        this.setScrollBounds();
+        const scrollTarget = (event.target as HTMLElement);
+      
+        event.preventDefault();
+        event.stopImmediatePropagation();
+
+        const isPositiveRoll = event.deltaY > 0;
+        const scrollStep = 10;
+        let nextPosition = 0;
+        const scrollBar = this.getGridScrollBar();
+        const scrollBarTop = scrollBar.getBoundingClientRect().y;
+
+        if (isPositiveRoll) {
+            nextPosition = scrollBarTop + scrollStep;
+        } else {
+            nextPosition = scrollBarTop - scrollStep;
+        }
+
+        if (this.isPositionInBounds(nextPosition)) {
+            scrollBar.style.top = nextPosition - this.yMin + 'px';
+        }
+    }
+
+    /**
+     * Click event on scroll container.
+     * @param event Click event.
+     */
+    onScrollContainerClick(event: MouseEvent): void {
+        // Dispatch mock drag event for every click as mousemove event.
+        this.isScrollBarActivated = true;
+        this.setScrollBounds();
+        this.drag(new MouseEvent('mousemove', event));
+        this.isScrollBarActivated = false;
+    }
+
+    /**
+     * Gets scroll element.
+     * @returns scroll element;
+     */
+    private getGridScrollBar(): HTMLElement {
         return this.shadowRoot.querySelector('.scroll-bar');
     }
 
@@ -120,6 +196,10 @@ export class ScrollUtilities {
      */
     private getGridScrollContainer(): HTMLElement {
         return this.shadowRoot.querySelector('.smart-scroll');
+    }
+
+    private getGridViewport(): HTMLElement {
+        return this.shadowRoot.querySelector('.data-viewport');
     }
 
     /**
@@ -136,9 +216,25 @@ export class ScrollUtilities {
      */
     private setScrollBounds() {
         const elementContainer = this.getGridScrollContainer();
-        const scrollBar = this.getGridScrollElement();
+        const scrollBar = this.getGridScrollBar();
         this.yMin = elementContainer.getBoundingClientRect().top;
         this.yMax = elementContainer.getBoundingClientRect().bottom;
         this.scrollBarHeight = scrollBar.getBoundingClientRect().height;
+    }
+
+    /**
+     * Sets scroll visibility.
+     */
+    private setScrollVisibility() {
+        const scrollContainer = this.getGridScrollContainer();
+        scrollContainer.classList.add('scrolling');
+    }
+
+    /**
+     * Resets scroll visibility to default behavior.
+     */
+    private resetScrollVisibility() {
+        const scrollContainer = this.getGridScrollContainer();
+        scrollContainer.classList.remove('scrolling');
     }
 }
