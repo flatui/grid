@@ -1,8 +1,8 @@
-import { CellUtilities } from "./core/cell.utilities";
+import { CellUtilities } from "./core";
 import { IGridConfig, IGridRenderer } from "./interface";
 import { GridColumn } from "./model";
 import { FlexHeaderRenderer, FlexDataRowRenderer, ScrollRenderer } from "./renderers";
-import { ScrollUtilities } from './core/scroll.utilities';
+import { ScrollUtilities } from './core';
 
 /**
  * Gs grid component class.

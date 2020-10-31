@@ -1,5 +1,4 @@
-import { IGridConfig } from "../interface";
-import { IGridEvents } from "../interface/grid-events";
+import { IGridConfig, IGridEvents } from "../interface";
 
 /**
  * Grid events class.
@@ -9,7 +8,7 @@ export class GridEvents implements IGridEvents {
     }
 
     /**
-     * Params grid events
+     * Setup grid configuration.
      * @param instanceId Grid instance id from instance-id attribute from grid.
      * @param gridConfig Grid config object.
      */

@@ -1,4 +1,4 @@
-import { ICellConfig } from "../interface/icell-config";
+import { ICellConfig } from "../interface";
 import { CellWidth } from "../model";
 
 /**

@@ -1,6 +1,5 @@
 import { IGridInstance } from "../interface";
 
-
 /**
  * Grid instance to handle operations on rendered grid.
  */
