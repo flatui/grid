@@ -8,7 +8,7 @@
 
 name: gs-grid-release
 
-branches: [main]
+on: [create]
 
 jobs:
   test:
