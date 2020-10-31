@@ -8,7 +8,7 @@
 
 name: gs-grid-release
 
-on: [create]
+on: [workflow_dispatch]
 
 jobs:
   test:
