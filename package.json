@@ -1,6 +1,6 @@
 {
     "name": "gs-grid",
-    "version": "0.0.1",
+    "version": "0.0.0",
     "description": "A new grid for evolving web",
     "main": "index.ts",
     "repository": "https://github.com/ganesh1004/gs-grid.git",
@@ -20,7 +20,8 @@
         "copy:app": "cp example/index.html demo/index.html & cp example/main.bundle.js demo/main.bundle.js & cp example/style.css demo/style.css",
         "start": "webpack-dev-server --watch",
         "clean": "yarn rm -rf dist && yarn rm -rf demo/",
-        "dev": "yarn build && yarn docs && concurrently --kill-others \"yarn tsc:watch\" \"yarn webpack --watch\" \"yarn webpack-dev-server\""
+        "dev": "yarn build && yarn docs && concurrently --kill-others \"yarn tsc:watch\" \"yarn webpack --watch\" \"yarn webpack-dev-server\"",
+        "release": "standard-version"
     },
     "husky": {
         "hooks": {}
@@ -46,6 +47,7 @@
         "node-sass": "^4.14.1",
         "css-modules-typescript-loader": "^4.0.1",
         "sass-loader": "^7.1.0",
-        "concurrently": "^5.3.0"
+        "concurrently": "^5.3.0",
+        "standard-version": "9.0.0"
     }
 }
