@@ -1,6 +1,6 @@
 {
     "name": "gs-grid",
-    "version": "0.0.0",
+    "version": "0.0.1-alpha.0",
     "description": "A new grid for evolving web",
     "main": "index.ts",
     "repository": "https://github.com/ganesh-vellanki/gs-grid",
