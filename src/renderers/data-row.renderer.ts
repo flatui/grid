@@ -1,4 +1,4 @@
-import { CellUtilities } from "../core/cell.utilities";
+import { CellUtilities } from "../core";
 import { IGridRenderColumn, IGridRenderer } from "../interface";
 
 /**
