@@ -5,7 +5,7 @@
 
 ### [Demo & Docs](https://ganesh-vellanki.github.io/gs-grid/)
 
-###[Package](https://www.npmjs.com/package/@gs-grid/gs-grid)
+### [Package](https://www.npmjs.com/package/@gs-grid/gs-grid)
 
 #### Steps to run locally: 
 
