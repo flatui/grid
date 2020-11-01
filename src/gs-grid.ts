@@ -145,10 +145,10 @@ export class GsGrid extends HTMLElement {
         });
 
         // Register header renderer.
-        this.headerRenderer = new FlexHeaderRenderer(rendererDataSet, this.cellUtils);
+        this.headerRenderer = new FlexHeaderRenderer(rendererDataSet, this.cellUtils, this.gridConfig);
 
         // Register data row renderer.
-        this.dataRowRenderer = new FlexDataRowRenderer(rendererDataSet, this.cellUtils);
+        this.dataRowRenderer = new FlexDataRowRenderer(rendererDataSet, this.cellUtils, this.gridConfig);
 
         // Register viewport scroll renderer.
         this.scrollRenderer = new ScrollRenderer();

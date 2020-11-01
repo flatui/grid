@@ -1,5 +1,5 @@
 import { CellUtilities } from "../core";
-import { IGridRenderColumn, IGridRenderer } from "../interface";
+import { IGridConfig, IGridRenderColumn, IGridRenderer } from "../interface";
 
 /**
  * Flex data row renderer.
@@ -18,8 +18,10 @@ export class FlexDataRowRenderer implements IGridRenderer {
     /**
      * Creates an instance of flex column renderer.
      * @param columns grid columns.
+     * @param cellUtils cell utilities.
+     * @param gridConfig grid config.
      */
-    constructor(columns: IGridRenderColumn[], cellUtils: CellUtilities) {
+    constructor(columns: IGridRenderColumn[], cellUtils: CellUtilities, private gridConfig: IGridConfig) {
         this._renderCols = columns;
         this._cellUtils = cellUtils;
     }
@@ -61,7 +63,7 @@ export class FlexDataRowRenderer implements IGridRenderer {
     private cellTemplateFragmentFn(field: string, data: any): string {
         const cellUtils = this._cellUtils.getCellUtilsByFieldName(field);
         const cellValue = this.getCellValue(field, data);
-        return `<div title="${cellValue}" class="cell-column" style="width: ${cellUtils.renderWidth}"><div class="cell-content">${cellValue}</div></div>`;
+        return `<div title="${cellValue}" class="cell-column" style="width: ${cellUtils.renderWidth}; height: ${this.gridConfig.rowHeight}px"><div class="cell-content">${cellValue}</div></div>`;
     }
 
     /**
