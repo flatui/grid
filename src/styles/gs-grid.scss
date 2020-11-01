@@ -34,6 +34,8 @@
     display: inline-flex;
     flex-direction: column;
     position: relative;
+    border-bottom: 1px solid #d3d3d3;
+    overflow: hidden;
 
     .data-row {
         display: inline-flex;
@@ -41,6 +43,10 @@
         border-bottom: 1px solid #d3d3d3;
         border-right: 1px solid #d3d3d3;
         border-left: 1px solid #d3d3d3;
+
+        &:last-child {
+            border-bottom: none;
+        }
 
         .cell-column {
             padding: 5px 10px;
