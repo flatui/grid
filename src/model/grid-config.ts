@@ -4,7 +4,7 @@ import {Observable, Subject, BehaviorSubject} from 'rxjs';
 /**
  * Grid configuration class.
  */
-export class GridConfig implements IGridConfig {
+export class GridConfig<T> implements IGridConfig {
     /**
      * Is grid instance ready.
      */
@@ -21,6 +21,11 @@ export class GridConfig implements IGridConfig {
     columnDefs: IGridColumn[];
 
     /**
+     * Row height of grid config.
+     */
+    rowHeight: number;
+
+    /**
      * Instance  of grid config
      */
     instance: IGridInstance;
@@ -28,13 +33,14 @@ export class GridConfig implements IGridConfig {
     /**
      * Data of grid config
      */
-    data?: any[];
+    data?: T[];
 
     /**
      * Creates an instance of grid config.
      */
     constructor(){
         this.renderCompleteSubscription = new BehaviorSubject(false);
+        this.rowHeight = 40;
     }
 
     /**
