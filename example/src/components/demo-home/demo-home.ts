@@ -3,7 +3,7 @@ import { IGridColumn } from '../../../../src/interface';
 import { GridConfig, GridEvents } from '../../../../src/model';
 
 class DemoHome {
-    usersList: any;
+    usersList: any[] = [];
 
     constructor() {
         const gsGridRef = gsGrid;
@@ -54,8 +54,14 @@ class DemoHome {
     async setupGridAndApplyData() {
         const gridConfig = new GridConfig();
         gridConfig.columnDefs = this.buildGridColumns();
+        gridConfig.rowHeight = 31;
 
-        this.usersList = await this.getUsers();
+        const usersList = await this.getUsers();
+
+        for (let i = 0; i<=10; i ++) {
+            this.usersList = this.usersList.concat([... usersList]);
+        }
+
         gridConfig.data = this.usersList;
         const gridEl = document.querySelector('gs-grid');
         if (gridEl) {
