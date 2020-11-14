@@ -165,7 +165,7 @@ export class GsGrid extends HTMLElement {
         this.headerRenderer = new FlexHeaderRenderer(rendererDataSet, this.cellUtils, this.gridConfig);
 
         // Register data row renderer.
-        this.dataRowRenderer = new FlexDataRowRenderer(rendererDataSet, this.cellUtils, this.gridConfig);
+        this.dataRowRenderer = new FlexDataRowRenderer(rendererDataSet, this.cellUtils, this.gridConfig, this.shadowRoot);
 
         // Register viewport scroll renderer.
         this.scrollRenderer = new ScrollRenderer();
@@ -182,7 +182,7 @@ export class GsGrid extends HTMLElement {
      * Initializes viewport.
      */
     private initializeViewport() {
-        this.shadowRoot.append(this.dataRowRenderer.render({ data: this.gridConfig.data }));
+        this.dataRowRenderer.renderIntoViewport({data: this.gridConfig.data});
     }
 
     /**

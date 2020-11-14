@@ -26,6 +26,14 @@ export class FlexHeaderRenderer implements IGridRenderer {
     }
 
     /**
+     * Renders into viewport.
+     * @param [data] options & data.
+     */
+    renderIntoViewport(data?: any): void {
+        throw new Error("Method not implemented.");
+    }
+
+    /**
      * Renders flex header renderer.
      */
     render(): HTMLElement {

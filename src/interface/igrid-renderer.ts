@@ -12,4 +12,9 @@ export interface IGridRenderer {
      * @returns boolean promise, true once complete.
      */
     queueRender(): Promise<HTMLElement>;
+
+    /**
+     * Render and insert into viewport.
+     */
+    renderIntoViewport(data?: any): void;
 }

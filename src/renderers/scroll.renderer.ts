@@ -12,6 +12,14 @@ export class ScrollRenderer implements IGridRenderer {
     }
 
     /**
+     * Renders into viewport.
+     * @param [data] render rows.
+     */
+    renderIntoViewport(data?: any): void {
+        throw new Error("Method not implemented.");
+    }
+
+    /**
      * Renders scroll renderer.
      * @param [data] render data.
      * @returns Element to render.

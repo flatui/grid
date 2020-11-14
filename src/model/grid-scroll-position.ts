@@ -34,7 +34,6 @@ export class GridScrollPosition implements IGridScrollPosition {
      * @returns y percent.
      */
     getYPercent(): number {
-        return ((this.y - this.yMin) / (this.yMax - this.y)) * 100;
+        return ((this.y - this.yMin) / (this.yMax - this.yMin)) * 100;
     }
-
 }

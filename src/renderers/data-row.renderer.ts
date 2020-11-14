@@ -6,24 +6,16 @@ import { IGridConfig, IGridRenderColumn, IGridRenderer } from "../interface";
  */
 export class FlexDataRowRenderer implements IGridRenderer {
     /**
-     * Render cols of flex column renderer.
-     */
-    private _renderCols: IGridRenderColumn[];
-
-    /**
-     * Cell utils of flex header renderer.
-     */
-    private _cellUtils: CellUtilities;
-    
-    /**
      * Creates an instance of flex column renderer.
      * @param columns grid columns.
      * @param cellUtils cell utilities.
      * @param gridConfig grid config.
      */
-    constructor(columns: IGridRenderColumn[], cellUtils: CellUtilities, private gridConfig: IGridConfig) {
-        this._renderCols = columns;
-        this._cellUtils = cellUtils;
+    constructor(private _renderCols: IGridRenderColumn[], 
+                private _cellUtils: CellUtilities, 
+                private gridConfig: IGridConfig,
+                private shadowRoot: ShadowRoot) 
+    {
     }
 
     /**
@@ -44,6 +36,42 @@ export class FlexDataRowRenderer implements IGridRenderer {
         }
         
         return dataViewport;
+    }
+
+    /**
+     * Renders into viewport.
+     * @param [renderOptions] render options.
+     */
+    renderIntoViewport(renderOptions?: any): void {
+        if (this.shadowRoot) {
+            this.shadowRoot.append(this.render({ data: this.gridConfig.data }));
+        }
+    }
+
+    updateViewportRowsUp(renderOptions?: any): void {
+        const viewport = this.shadowRoot.querySelector('.data-viewport');
+
+        if (viewport.innerHTML.length > 0) {
+            viewport.classList.add('scrolling-viewport');
+            viewport.innerHTML = this.renderNewRows(renderOptions.data);
+            viewport.classList.remove('scrolling-viewport');
+        }
+    }
+
+    updateViewportRowsDown(renderOptions: any): void {
+    }
+
+    renderNewRows(data: any[]) {
+        let colTemplate = '';
+        if(data && data.length > 0) {
+            data.forEach(dataRow => {
+                this._renderCols.forEach(col => {
+                    colTemplate += this.cellTemplateFragmentFn(col.field, dataRow);
+                });
+            });
+        }
+
+        return colTemplate;
     }
 
     /**
