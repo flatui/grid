@@ -1,5 +1,5 @@
-import { CellUtilities } from "./core";
-import { IGridConfig, IGridRenderer } from "./interface";
+import { CellUtilities, Virtualize } from "./core";
+import { IGridConfig, IGridRenderer, IGridScrollPosition } from "./interface";
 import { GridColumn } from "./model";
 import { FlexHeaderRenderer, FlexDataRowRenderer, ScrollRenderer } from "./renderers";
 import { ScrollUtilities } from './core';
@@ -49,12 +49,18 @@ export class GsGrid extends HTMLElement {
     private cellUtils: CellUtilities;
 
     /**
+     * Virtualization core of gs grid.
+     */
+    private virtualizationCore: Virtualize;
+
+    /**
      * Creates an instance of gs-grid.
      */
     constructor() {
         super();
         this.instanceId = this.generateInstanceId();
         this.registerGridEventCallback();
+        this._currentScrollIndex = 0;
     }
 
     /**
@@ -129,15 +135,26 @@ export class GsGrid extends HTMLElement {
         this.initializeScrollBar();
 
         // Init smart scroll.
+        // TODO: move smart scroll reg to new method.
+        // TODO: Use Rxjs & remove timeout.
         var smartScroll = new ScrollUtilities(this.shadowRoot);
         setTimeout(() => {
             smartScroll.registerSmartScrollEvents();
         }, 2000);
+
+        // Init virtualization core.
+        // TODO: Use Rxjs & remove timeout.
+        setTimeout(() => {
+            this.initializeVirtualization();
+            smartScroll.scrollMoveComplete$.subscribe((scrollPosition: IGridScrollPosition) => {
+                this.virtualizationCore.OnGridScrollPositionChange(scrollPosition);
+            });
+        }, 500);
     }
 
     /**
      * Registers renderers of header & column of grid.
-     * @param gridConfig 
+     * @param gridConfig grid configuration.
      */
     registerRenderers(gridConfig: IGridConfig) {
         const rendererDataSet = gridConfig.columnDefs.map(x => {
@@ -145,10 +162,10 @@ export class GsGrid extends HTMLElement {
         });
 
         // Register header renderer.
-        this.headerRenderer = new FlexHeaderRenderer(rendererDataSet, this.cellUtils);
+        this.headerRenderer = new FlexHeaderRenderer(rendererDataSet, this.cellUtils, this.gridConfig);
 
         // Register data row renderer.
-        this.dataRowRenderer = new FlexDataRowRenderer(rendererDataSet, this.cellUtils);
+        this.dataRowRenderer = new FlexDataRowRenderer(rendererDataSet, this.cellUtils, this.gridConfig, this.shadowRoot);
 
         // Register viewport scroll renderer.
         this.scrollRenderer = new ScrollRenderer();
@@ -165,7 +182,7 @@ export class GsGrid extends HTMLElement {
      * Initializes viewport.
      */
     private initializeViewport() {
-        this.shadowRoot.append(this.dataRowRenderer.render({ data: this.gridConfig.data }));
+        this.dataRowRenderer.renderIntoViewport({data: this.gridConfig.data});
     }
 
     /**
@@ -174,7 +191,7 @@ export class GsGrid extends HTMLElement {
     private initializeScrollBar() {
         const viewport = this.shadowRoot.querySelector('.data-viewport');
         if (viewport) {
-            viewport.append(this.scrollRenderer.render());
+            viewport.prepend(this.scrollRenderer.render());
         }
     }
 
@@ -186,6 +203,13 @@ export class GsGrid extends HTMLElement {
         const gsGridStyles = require('./styles/gs-grid.scss').default[0][1];
         styleRoot.innerText = gsGridStyles.replace(/\n|\r/g, "");
         this.shadowRoot.appendChild(styleRoot);
+    }
+
+    /**
+     * Initializes virtualization.
+     */
+    private initializeVirtualization() {
+        this.virtualizationCore = new Virtualize(this.gridConfig, this.shadowRoot);
     }
 
     /**

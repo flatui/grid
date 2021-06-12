@@ -1,3 +1,7 @@
+import { BehaviorSubject } from "rxjs";
+import { IGridScrollPosition } from "../interface";
+import { GridScrollPosition } from "../model/grid-scroll-position";
+
 /**
  * Scroll utilities.
  */
@@ -43,11 +47,17 @@ export class ScrollUtilities {
     private dragCallback = (event: MouseEvent) => {this.drag(event)};
 
     /**
+     * Scroll move complete publisher.
+     */
+    public scrollMoveComplete$: BehaviorSubject<IGridScrollPosition>;
+
+    /**
      * Creates an instance of scroll utilities.
      */
     constructor(shadowRoot: ShadowRoot) {
         this.shadowRoot = shadowRoot;
         this.setScrollBounds();
+        this.scrollMoveComplete$ = new BehaviorSubject<IGridScrollPosition>(new GridScrollPosition(0, 0, 100));
     }
 
     /**
@@ -121,6 +131,8 @@ export class ScrollUtilities {
     dragEnd(event: MouseEvent): void {
         this.isScrollBarActivated = false;
         this.resetScrollVisibility();
+        const scrollBar = this.getGridScrollBar();
+        this.scrollMoveComplete$.next(new GridScrollPosition(this.yMin, scrollBar.getBoundingClientRect().y, this.yMax));
     }
 
     /**
@@ -165,6 +177,7 @@ export class ScrollUtilities {
 
         if (this.isPositionInBounds(nextPosition)) {
             scrollBar.style.top = nextPosition - this.yMin + 'px';
+            this.scrollMoveComplete$.next(new GridScrollPosition(this.yMin, nextPosition, this.yMax));
         }
     }
 

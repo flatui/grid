@@ -106,3 +106,5 @@ dist
 dist/
 demo/
 example/main.bundle.js
+
+.idea/

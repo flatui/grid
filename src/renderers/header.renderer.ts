@@ -1,5 +1,5 @@
 import { CellUtilities } from "../core";
-import { ICellConfig, IGridRenderColumn, IGridRenderer } from "../interface";
+import { ICellConfig, IGridConfig, IGridRenderColumn, IGridRenderer } from "../interface";
 
 /**
  * Flex header renderer.
@@ -17,12 +17,20 @@ export class FlexHeaderRenderer implements IGridRenderer {
 
     /**
      * Creates an instance of flex header renderer.
-     * @param columns 
-     * @param cellUtils 
+     * @param columns grid columns.
+     * @param cellUtils cell utilities.
      */
-    constructor(columns: IGridRenderColumn[], cellUtils: CellUtilities) {
+    constructor(columns: IGridRenderColumn[], cellUtils: CellUtilities, private gridConfig: IGridConfig) {
         this._renderCols = columns;
         this._cellUtils = cellUtils;
+    }
+
+    /**
+     * Renders into viewport.
+     * @param [data] options & data.
+     */
+    renderIntoViewport(data?: any): void {
+        throw new Error("Method not implemented.");
     }
 
     /**
@@ -55,7 +63,7 @@ export class FlexHeaderRenderer implements IGridRenderer {
      */
     private cellTemplateFragmentFn(cellValue: string, field: string): string {
         const cellUtil = this._cellUtils.getCellUtilsByFieldName(field);
-        return `<div title="${cellValue}" style="width: ${cellUtil.renderWidth}" class="header-column" data-field="${field}"><div class="cell-content">${cellValue}</div></div>`;
+        return `<div title="${cellValue}" style="width: ${cellUtil.renderWidth}; height: ${this.gridConfig.rowHeight}px" class="header-column" data-field="${field}"><div class="cell-content">${cellValue}</div></div>`;
     }
 
     /**

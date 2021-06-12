@@ -11,9 +11,14 @@ export interface IGridConfig {
     columnDefs: IGridColumn[];
 
     /**
-     * Instance  of grid config
+     * Instance of grid config
      */
     instance: IGridInstance;
+
+    /**
+     * Row height of grid config.
+     */
+    rowHeight: number;
 
     /**
      * Determines whether instance ready is
