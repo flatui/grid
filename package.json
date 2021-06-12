@@ -1,9 +1,9 @@
 {
-    "name": "@gs-grid/gs-grid",
-    "version": "0.0.1-alpha.2",
+    "name": "@flatui/grid",
+    "version": "0.0.1-alpha.3",
     "description": "A new grid for evolving web",
     "main": "index.ts",
-    "repository": "https://github.com/ganesh-vellanki/gs-grid",
+    "repository": "https://github.com/flatui/grid",
     "author": "velankiganesh@gmail.com",
     "license": "MIT",
     "private": false,
